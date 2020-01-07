@@ -1,0 +1,40 @@
+{
+  "name": "rucaptcha-api",
+  "version": "0.0.1",
+  "description": "rucaptcha-api",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -watch",
+    "test": "tsc && cp -R ./src/tests/img ./lib/tests/img && mocha ./lib/tests",
+    "testNB": "mocha ./lib/tests",
+  },
+  "main": "lib/index",
+  "types": "./lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shamanov-d/rucaptcha-api.git"
+  },
+  "keywords": [
+    "rucaptcha"
+  ],
+  "author": "Shamanov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shamanov-d/rucaptcha-api/issues"
+  },
+  "homepage": "https://github.com/shamanov-d/rucaptcha-api#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.1.2",
+    "@types/mocha": "^5.2.7",
+    "node-static": "^0.7.11",
+    "@types/chai": "^4.2.7",
+    "typescript": "^3.7.4",
+    "express": "^4.17.1",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}
