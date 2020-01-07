@@ -6,7 +6,7 @@
     "build": "tsc",
     "dev": "tsc -watch",
     "test": "tsc && cp -R ./src/tests/img ./lib/tests/img && mocha ./lib/tests",
-    "testNB": "mocha ./lib/tests",
+    "testNB": "mocha ./lib/tests"
   },
   "main": "lib/index",
   "types": "./lib/index.d.ts",

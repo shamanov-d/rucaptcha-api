@@ -1,3 +1,4 @@
 .git
 tsconfig.json
 lib/tests
+src
