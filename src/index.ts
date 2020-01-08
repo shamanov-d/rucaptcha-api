@@ -5,10 +5,21 @@ import { RequestNormalCaptcha, RequestRes, Response } from './types';
 import ChunkRepetition from './helpers/ChunkRepetition';
 
 export interface Cfg {
-    key: string
-    sleepTimeRes?: number
-    debug?: boolean
+    key: string //ключ доступа к api
+    sleepTimeRes?: number //задержка между запросами на разрешенную капчу
+    debug?: boolean //отладка, ошибки будут дополнены параметрами запроса(options)
     callbackNullBalance?: () => any //callback при пустом балансе, внимание если есть callback ошибка проглатывается и резолверы вернут null!! 
+}
+
+/**
+ * тип источника картинки
+ * описывает все возможные методы получения картинки
+ * должен быть описан хотя бы 1 вид источника
+ */
+type sourceImg = {
+    url?: string, //загрузить картинку по url
+    path?: string, //загрузить с диска по адресу path
+    base64?: string //просто картинка в base64
 }
 
 export default class Rucaptcha {
@@ -23,11 +34,21 @@ export default class Rucaptcha {
         }
     }
 
+    /**
+     * задержка
+     * @param ms - время задержки в мс
+     */
     private sleep(ms: number): Promise<void> {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 
+    /**
+     * прерабатываем запрос 
+     * rucaptcha не допускает bool все должно быть в number
+     * ну, а по мне это ни разу не канон, флаги локаничней...
+     * @param options - обрабатываемые опции
+     */
     private redesingRequest(options: { [key: string]: any }): any {
         for (let key in options)
             if (typeof options[key] === 'boolean')
@@ -46,8 +67,8 @@ export default class Rucaptcha {
     }
 
     /**
-     * приводит к единому формату ответы не зависимо от флага json
-     * @param res 
+     * приводит к единому формату ответы независимо от флага json
+     * @param res - данные ответа
      */
     public responseResolver(res: any): Response {
         if (typeof res === 'string') {
@@ -64,6 +85,10 @@ export default class Rucaptcha {
         } else return res;
     }
 
+    /**
+     * запрос к адресу "\in.php"
+     * @param option - параметры запроса
+     */
     public async in<T>(option: T): Promise<Response | false> {
         option = this.redesingRequest(option);
         let ret = await ChunkRepetition(() => axios.post('https://rucaptcha.com/in.php', option));
@@ -82,8 +107,9 @@ export default class Rucaptcha {
     }
 
     /**
-     * вернем null если капча еще неготова
-     * @param option 
+     * запрос к адресу "\res.php"
+     * вернем null если капча еще не готова
+     * @param option - параметры запроса
      */
     public async res<T>(option: T): Promise<Response | null | boolean> {
         option = this.redesingRequest(option);
@@ -98,17 +124,20 @@ export default class Rucaptcha {
     }
 
     /**
-     * решаем капчу по картинке
-     * @param file  - картинка в base64 или адрес для её скачивания
+     * решаем капчу 
+     * "Обыкновенную" - картинка
+     * Вернем string - решение капти, 
+     * null - если недостаточно баланса и есть обработчик callbackNullBalance
+     * @param source - источника картинки
      */
-    async resolveNormalCaptcha(param: { url?: string, path?: string, base64?: string }) {
+    async resolveNormalCaptcha(source: sourceImg): Promise<string | null> {
         let body = "";
-        if (param.base64)
-            body = param.base64
-        else if (param.url)
-            body = await this.getBase64ImgFromUrl(param.url)
-        else if (param.path)
-            body = fs.readFileSync(param.path).toString('base64')
+        if (source.base64)
+            body = source.base64
+        else if (source.url)
+            body = await this.getBase64ImgFromUrl(source.url)
+        else if (source.path)
+            body = fs.readFileSync(source.path).toString('base64')
         else throw 'Не указан источник картинки';
         let retIn = <Response>await this.in<RequestNormalCaptcha>({
             key: this.cfg.key,

@@ -148,8 +148,8 @@ export interface Response {
 }
 
 /**
- * запрос на получение разгадонной капчи 
- * одиинаков для всех типов каптч
+ * запрос на получение разгаданной капчи 
+ * одинаков для всех типов капчи
  */
 export interface RequestRes extends BaseOptions {
     action: 'get' | 'get2' | 'getbalance'
