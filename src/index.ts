@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as fs from 'fs';
 import { CfgError, ListApiErrors, NetworkError } from './types/Error';
-import { RequestNormalCaptcha, RequestRes, Response, RequestBaseOptionsIN } from './types';
+import { RequestNormalCaptcha, RequestRes, Response } from './types';
 import ChunkRepetition from './helpers/ChunkRepetition';
 
 export interface Cfg {
@@ -64,7 +64,7 @@ export default class Rucaptcha {
         } else return res;
     }
 
-    public async in<T extends RequestBaseOptionsIN>(option: T): Promise<Response | false> {
+    public async in<T>(option: T): Promise<Response | false> {
         option = this.redesingRequest(option);
         let ret = await ChunkRepetition(() => axios.post('https://rucaptcha.com/in.php', option));
         if (ret.status !== 200) throw new NetworkError(`Code:${ret.status}`);
