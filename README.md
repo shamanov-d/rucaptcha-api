@@ -24,3 +24,5 @@ let api = new Api({ key: process.env.key });
 })()
 
 ```
+
+Функция resolveNormalCaptcha поддерживает разные варианты загрузки изображения [см.](https://github.com/shamanov-d/rucaptcha-api/blob/3db142be5cdaae9213b737085138c97494581bd3/src/index.ts#L19)
