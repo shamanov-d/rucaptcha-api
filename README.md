@@ -1,3 +1,5 @@
+Собственно смысла уже не имеет по причине того что `2captcha` [взялись нормально за api](взялись нормально за api) наконец то.🙈
+
 <p align="center">
 <a href="https://www.npmjs.com/package/rucaptcha-api"><img src="https://img.shields.io/npm/v/rucaptcha-api.svg?style=flat-square" alt="NPM version"></a>
 <a href="https://www.npmjs.com/package/rucaptcha-api"><img src="https://img.shields.io/npm/dt/rucaptcha-api.svg?style=flat-square" alt="NPM downloads"></a>
