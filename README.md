@@ -1,4 +1,4 @@
-Собственно смысла уже не имеет по причине того что `2captcha` [взялись нормально за api](взялись нормально за api) наконец то.🙈
+Собственно смысла уже не имеет по причине того что `2captcha` [взялись нормально за api](https://www.npmjs.com/package/@2captcha/captcha-solver) наконец то.🙈
 
 <p align="center">
 <a href="https://www.npmjs.com/package/rucaptcha-api"><img src="https://img.shields.io/npm/v/rucaptcha-api.svg?style=flat-square" alt="NPM version"></a>
